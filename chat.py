@@ -1,12 +1,44 @@
 """Chat with Riley:  python3 chat.py
-Type your message and press Enter. Commands:  /new  (fresh conversation)   /switch  (change model)   /quit
+Type a multiline message and submit it with /send. Commands: /new, /switch, /quit.
 """
 import sys
+import contextlib
+import io
 try:
     import btm
     from btm import chat, new_conversation, list_models
 except KeyError:
     sys.exit("Run setup first:  python3 setup.py")
+
+RESET = "\033[0m"
+GREEN = "\033[32m"
+CYAN = "\033[36m"
+YELLOW = "\033[33m"
+RED = "\033[31m"
+DIM = "\033[2m"
+
+
+def paint(text, color):
+    return f"{color}{text}{RESET}"
+
+
+def read_prompt():
+    """Read a multiline prompt; /send submits the accumulated text."""
+    lines = []
+    while True:
+        prompt = "You: " if not lines else ">> "
+        try:
+            line = input(prompt)
+        except (EOFError, KeyboardInterrupt):
+            if lines:
+                print()
+            raise
+        if line == "/send":
+            return "\n".join(lines).strip()
+        if not lines and line in {"/quit", "/new", "/switch"}:
+            return line
+        lines.append(line)
+
 
 def pick(prompt, n, default):
     while True:
@@ -27,14 +59,15 @@ def choose():
     for i, (m, size) in enumerate(models, 1):
         print(f"  {i}. {m}  ({size})")
     model = models[pick("Pick a model", len(models), 1) - 1][0]
-    print(f"\n--- New conversation with {model}. Type /new, /switch or /quit any time. ---\n")
+    print(f"\n--- New conversation with {model}. Type /new, /switch or /quit any time. ---")
+    print("Enter adds a line; type /send on its own line to submit.\n")
     return model, new_conversation()
 
 
 model, conv = choose()
 while True:
     try:
-        msg = input("You: ").strip()
+        msg = read_prompt()
     except (EOFError, KeyboardInterrupt):
         print(); break
     if not msg:
@@ -45,10 +78,16 @@ while True:
         conv = new_conversation(); print("--- Fresh conversation (Riley forgot everything) ---\n"); continue
     if msg == "/switch":
         model, conv = choose(); continue
-    print("Riley is thinking...")
+    print(paint("Riley is thinking...", CYAN))
     try:
-        reply = chat(msg, model=model, conversation_id=conv)
-        print(f"Riley: {reply}\n        (turn_id: {btm.LAST_TURN_ID})\n")
+        tool_output = io.StringIO()
+        with contextlib.redirect_stdout(tool_output):
+            reply = chat(msg, model=model, conversation_id=conv)
+        for line in tool_output.getvalue().splitlines():
+            print(paint(line, YELLOW))
+        print(paint(f"You: {msg}", GREEN))
+        print(paint(f"Riley: {reply}", CYAN))
+        print(f"        {paint(f'(turn_id: {btm.LAST_TURN_ID})', DIM)}\n")
     except Exception as e:  # noqa: BLE001
-        print(f"⚠️  {e}\n")
+        print(paint(f"⚠️  {e}", RED) + "\n")
 print("Bye! Found a leak? Submit the turn_id in the form (link in README).")
