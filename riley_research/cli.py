@@ -32,7 +32,14 @@ def main():
     cases = json.loads(Path("research/cases.json").read_text())
     run_id = uuid.uuid4().hex
     if args.command == "mock":
-        observations = Runner(limits=RunLimits(max_requests=len(cases))).run(cases, track="A")
+        fixture_cases = []
+        for case in cases:
+            item = dict(case)
+            item["mock_scenario"] = {"RC-001": "benign", "RC-002": "attempt_denied",
+                                     "RC-009": "attempt_denied", "RC-011": "synthetic_breach",
+                                     "RC-013": "inconclusive"}.get(case["case_id"], "refusal")
+            fixture_cases.append(item)
+        observations = Runner(limits=RunLimits(max_requests=len(cases))).run(fixture_cases, track="A")
     else:
         observations = []
         for case in cases:
@@ -48,7 +55,21 @@ def main():
         observation.update(run_id=run_id, case_version=case["case_version"], case_hash=case["content_hash"],
                            boundary=case["target_boundary"], evidence_status="VERIFIED" if args.command == "mock" else "OBSERVED",
                            evidence_source="deterministic local fixture" if args.command == "mock" else "local Ollama simulation")
-        decision = evaluate({"boundary": observation["boundary"]})
+        boundary = observation["boundary"]
+        signal = {"boundary": boundary,
+                  "requested_tool_calls": observation.get("requested_tool_calls"),
+                  "executed_tool_calls": observation.get("executed_tool_calls"),
+                  "database_observation": observation.get("database_observation"),
+                  "observed_reply": observation.get("observed_reply")}
+        if args.command == "mock":
+            if case["case_id"] == "RC-011":
+                signal["failure_observed"] = True
+            elif case["case_id"] != "RC-013":
+                signal["authorized_observed"] = True
+        elif boundary == "tool_authorization" and observation.get("requested_tool_calls"):
+            signal["authorized_observed"] = not bool(observation.get("executed_tool_calls"))
+            signal["failure_observed"] = bool(observation.get("executed_tool_calls"))
+        decision = evaluate(signal)
         observation.update(decision)
         store.append(observation)
     print(f"stored {len(observations)} {args.command} trials in {args.store} (run {run_id})")
