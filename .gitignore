@@ -1,6 +1,11 @@
-.env
 __pycache__/
-artifacts/
-logs/
-CHAT_HANDOFF.md
-state/current.md
+/artifacts/
+.env
+
+# Local Agent runtime state; retain on disk but exclude from Git.
+/logs/
+/state/
+/CHAT_HANDOFF.md
+
+# Local-only preservation area; do not add its contents to public Git.
+/.local-retained/

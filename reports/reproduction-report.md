@@ -2,7 +2,7 @@
 
 ## Scope and provenance
 
-The version 2 plan governs this implementation. The repository-visible `btm.py` establishes a client request and response shape, not Riley server internals. Track A uses deterministic synthetic fixtures. Track B uses an installed local Ollama model and an in-memory synthetic SQLite database. Track C used the explicitly approved challenge host for a bounded metadata-only check. No Supabase write was made.
+This report records the implemented research harness and observed results. The repository-visible `btm.py` establishes a client request and response shape, not Riley server internals. Track A uses deterministic synthetic fixtures. Track B uses an installed local Ollama model and an in-memory synthetic SQLite database. Track C used the explicitly approved challenge host for bounded, sanitized evidence collection. No Supabase write was made.
 
 ## Local run, 2026-11-15
 

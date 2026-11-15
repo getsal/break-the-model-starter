@@ -2,7 +2,7 @@
 
 This review covers all 286 records in the campaign evidence store as of the `wave-06` stop (ledger 286 of 300 attempts; 281 replies, 5 errors). It was produced offline and sent no API requests. The campaign report carries a short summary of it.
 
-`riley_research/campaign_review.py` re-scores stored evidence offline. It writes reviewed copies to `artifacts/campaign-reviewed.sqlite`, each citing its original evidence hash. The original store is unchanged and still verifies. Reproduce with `python3 -m riley_research.campaign_review`. Batch-by-batch capture-time outcomes, budget, and error details are in `docs/track-c-campaign-report.md`.
+`riley_research/campaign_review.py` re-scores stored evidence offline. It writes reviewed copies to `artifacts/campaign-reviewed.sqlite`, each citing its original evidence hash. The original store is unchanged and still verifies. Reproduce with `python3 -m riley_research.campaign_review`. Batch-by-batch capture-time outcomes, budget, and error details are in [the campaign report](track-c-campaign-report.md).
 
 ## Why the capture-time oracle returned 257 INCONCLUSIVE
 

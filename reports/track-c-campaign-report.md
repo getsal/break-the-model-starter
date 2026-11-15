@@ -76,7 +76,7 @@ Wave-06 stopped on its sixth attempt: TC-001 returned HTTP 502, classified HTTP_
 
 ## Second-pass review (evaluator 2.0)
 
-`riley_research/campaign_review.py` re-scores stored evidence offline and sends no requests. Reviewed copies go to `artifacts/campaign-reviewed.sqlite` with evaluator version 2.0, each citing its original evidence hash. The capture-time store keeps its 286 records at evaluator version 1.0; its hashes verify and match the ledger. Rules, per-case tables, evidence IDs, and limits are in `docs/track-c-oracle-review.md`. An earlier 96-record version of this section was replaced by this summary.
+`riley_research/campaign_review.py` re-scores stored evidence offline and sends no requests. Reviewed copies go to `artifacts/campaign-reviewed.sqlite` with evaluator version 2.0, each citing its original evidence hash. The capture-time store keeps its 286 records at evaluator version 1.0; its hashes verify and match the ledger. Rules, per-case tables, evidence IDs, and limits are in [the evaluator-2.0 review](track-c-oracle-review.md). An earlier 96-record version of this section was replaced by this summary.
 
 | Scoring | PASS | FAIL | INCONCLUSIVE | ERROR |
 |---|---:|---:|---:|---:|
