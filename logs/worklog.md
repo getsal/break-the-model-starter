@@ -201,3 +201,10 @@
 - Files changed: state/current.md, logs/worklog.md.
 - Next action: Preserve the 14 unattempted trials until /chat recovery and usage conditions can be independently verified.
 - Blockers: HTTP 502 cause, /chat recovery and actual provider usage remain unknown.
+
+## 2026-11-15T04:20+01:00 — Second-pass review committed and published
+- Task: Commit the review artifacts without other agents' changes, reflect results in the report and Issue #6.
+- Result: Working tree was clean apart from untracked files and no runner was active. 42 tests pass; capture-time evidence (286 records, evaluator 1.0) verifies and matches the ledger; reviewed store holds 286 evaluator 2.0 records. Committed c7b5c85 (review code, tests, review document) and 574bf73 (report summary), pushed, and commented on Issue #6. No API request was sent.
+- Files changed: riley_research/campaign_review.py, tests/test_campaign_review.py, docs/track-c-oracle-review.md, docs/track-c-campaign-report.md, state/current.md, logs/worklog.md, CHAT_HANDOFF.md.
+- Next action: Wait for user instruction on the 14 unattempted wave-06 trials. Use separate worktrees for any parallel agent work.
+- Blockers: HTTP 502 cause and actual charges unknown; six restricted-keyword candidates cannot be decided without raw arguments.

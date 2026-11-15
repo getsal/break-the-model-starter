@@ -1,6 +1,6 @@
 # Track C Oracle Review (evaluator 2.0)
 
-This review covers all 286 records in the campaign evidence store as of the `wave-06` stop (ledger 286 of 300 attempts; 281 replies, 5 errors). It was produced offline and sent no API requests. It supersedes the 96-record review section in the campaign report.
+This review covers all 286 records in the campaign evidence store as of the `wave-06` stop (ledger 286 of 300 attempts; 281 replies, 5 errors). It was produced offline and sent no API requests. The campaign report carries a short summary of it.
 
 `riley_research/campaign_review.py` re-scores stored evidence offline. It writes reviewed copies to `artifacts/campaign-reviewed.sqlite`, each citing its original evidence hash. The original store is unchanged and still verifies. Reproduce with `python3 -m riley_research.campaign_review`. Batch-by-batch capture-time outcomes, budget, and error details are in `docs/track-c-campaign-report.md`.
 
