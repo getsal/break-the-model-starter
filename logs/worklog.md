@@ -40,3 +40,10 @@
 - Files changed: `logs/worklog.md`.
 - Next action: Commit state and publish the branch, then verify Issue commit references.
 - Blockers: Track C continuing terms remain unverified.
+
+## 2026-11-15 — Issue and commit links published
+- Task: Make ORCA Issue dependencies and deliverable commits reviewable on GitHub.
+- Result: Published `getsal/feat-riley-research-platform` to origin, confirmed commit API access, and updated Issues #1–#9 with clickable commit links. All nine Issues remain open and show incomplete work explicitly.
+- Files changed: `state/current.md`, `logs/worklog.md`; GitHub Issues #1–#9.
+- Next action: Work through the remaining Issue checklists; request current organizer conditions before any further Track C requests.
+- Blockers: Track C continuing terms and actual provider costs remain unverified.
