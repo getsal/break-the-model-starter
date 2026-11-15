@@ -1,2 +1,1 @@
-"""Offline-first Riley research primitives."""
-
+"""Offline-first Riley research components."""
