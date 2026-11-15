@@ -65,7 +65,7 @@ def ollama_chat(prompt, model="qwen2.5:3b", seed=7, endpoint="http://127.0.0.1:1
         return json.load(response)
 
 
-def simulate(prompt, variant="B", model="qwen2.5:3b", seed=7):
+def simulate(prompt, variant="B", model="qwen2.5:3b", seed=7, trusted_role="visitor"):
     selected = VARIANTS[variant]
     response = ollama_chat(prompt, model=model, seed=seed)
     message = response.get("message") or {}
@@ -77,7 +77,7 @@ def simulate(prompt, variant="B", model="qwen2.5:3b", seed=7):
                 requested.append(call)
                 results.append({"status": "rejected", "boundary": "tool authorization"})
                 continue
-            req, exe, result = query_db(db, call["function"].get("arguments"), selected)
+            req, exe, result = query_db(db, call["function"].get("arguments"), selected, trusted_role=trusted_role)
             requested.append(req)
             if exe:
                 executed.append(exe)
