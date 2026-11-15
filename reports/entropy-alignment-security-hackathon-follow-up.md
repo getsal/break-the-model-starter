@@ -96,6 +96,12 @@ The review was performed offline against the sanitized evidence store and writes
 
 Tool-call summaries omit raw arguments. The campaign evidence does not contain authenticated request bodies, tool results, database results, or server-side authorization traces. No inference here establishes whether a displayed tool call executed. Actual provider charges remain unknown; $6.21 is a configured estimate. The campaign stopped after an HTTP 502 at 286 of 300 attempts; 14 trial IDs remain unattempted and were not retried for this report.
 
+## Identity and overlap reconciliation
+
+The local selected stores were matched using the ledger's per-attempt `trial_id` and unique `evidence_hash`, not the evidence store's `run_id` (which is a batch name and repeats). The ledger has 286 unique attempt IDs and 286 unique hashes. Its 286 hashes all occur in the 286 campaign-evidence rows and in the broader Dashboard's 297 Track C rows. The other 11 Dashboard Track C hashes are earlier observations outside this campaign. They are not added to the 286-attempt total. No 287th campaign record appears in these selected stores.
+
+The public behaviour CSV is an aggregate by case, label, and reviewed outcome; it does not add per-trial rows or double-count the Dashboard's historical records. The evidence databases used for this reconciliation remain a local candidate bundle and are not included in this report publication.
+
 ## Reproducibility and public materials
 
 - Capture-time campaign summary: [Track C campaign report](track-c-campaign-report.md)
