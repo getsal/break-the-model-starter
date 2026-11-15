@@ -1,0 +1,43 @@
+﻿From,To,Type,Label,Strength,Description,Evidence level,Source
+campaign,eval1,scored by,保存時,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,eval2,reviewed offline,オフライン再評価,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+eval1,eval1_pass,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+eval1,eval1_fail,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+eval1,eval1_inconclusive,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+eval1,eval1_error,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+eval2,eval2_pass,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+eval2,eval2_fail,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+eval2,eval2_inconclusive,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+eval2,eval2_error,count,判定内訳,1,属性のnumerator/denominatorを参照,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+campaign,pilot,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,w1,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,w2,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,w3,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,w4,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,w5,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,w6,includes,バッチ,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+eval1,missedvariant,oracle analysis,影響を受けた,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+eval1,norules,oracle analysis,影響を受けた,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+eval1,strictmatch,oracle analysis,影響を受けた,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+eval1,nofailroute,oracle analysis,欠陥,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+missedvariant,eval1_inconclusive,oracle analysis,181件を構成,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+norules,eval1_inconclusive,oracle analysis,50件を構成,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+strictmatch,eval1_inconclusive,oracle analysis,26件を構成,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+qwen,tc002,documented model observation,5/5,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+gptoss,tc002,documented model observation,0/5 marker-only,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+gptoss,tc003fail,documented model observation,1/4 completed,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+qwen,overrefusal,documented model observation,18/18,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+gptoss,overrefusal,documented model observation,13/14 summarized,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+gptoss,tc001flag,documented model observation,6/17,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+gptoss,tc006calls,documented model observation,4/15,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+tc002,case_tc002,finding concerns case,case summary,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+tc003fail,case_tc003,finding concerns case,case summary,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+overrefusal,case_tc003,finding concerns case,case summary,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+tc001flag,case_tc001,finding concerns case,case summary,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+tc006calls,case_tc006,finding concerns case,case summary,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-oracle-review.md
+campaign,timeouts,source-reported aggregate,includes,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,http502,source-reported aggregate,stopped at,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,remaining,source-reported aggregate,holds,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+campaign,cost,source-reported aggregate,estimated budget,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-campaign-report.md
+dashboard,campaign,source-reported aggregate,reported to contain,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
+campaign,ledger,source-reported aggregate,reported reconciliation,1,,source-reported relationship,https://github.com/getsal/break-the-model-starter/blob/ebcb2904a92f22325446a74cd5e8ebbbf239eae9/docs/track-c-audit-286.md
