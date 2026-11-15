@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 import sqlite3
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
@@ -114,8 +115,14 @@ class EvidenceStore:
             db.execute("CREATE INDEX IF NOT EXISTS trials_run ON trials(run_id)")
             db.execute("CREATE INDEX IF NOT EXISTS trials_case ON trials(case_id)")
 
-    def _connect(self) -> sqlite3.Connection:
-        return sqlite3.connect(self.path)
+    @contextmanager
+    def _connect(self):
+        db = sqlite3.connect(self.path)
+        try:
+            yield db
+            db.commit()
+        finally:
+            db.close()
 
     def append(self, record: Mapping[str, Any]) -> dict[str, Any]:
         clean = prepare_record(record)
