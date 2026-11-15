@@ -8,6 +8,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from .evidence import EvidenceStore
 from .track_c_analysis import comparison_rows
+from .campaign_analysis import batch_summaries, variability_rows
 
 
 def render(records, selected_track=None, cases=None):
@@ -20,6 +21,8 @@ def render(records, selected_track=None, cases=None):
     c_attempts = sum(bool(r.get("requested_tool_calls")) for r in c_records)
     c_executor = sum(r.get("executed_tool_calls") is not None and r.get("observed_tool_results") is not None for r in c_records)
     c_database = sum(r.get("database_observation") is not None for r in c_records)
+    batches = batch_summaries(c_records)
+    variation = variability_rows(c_records)
     cases = cases or []
     categories = Counter(c.get("category") for c in cases)
     tokens = sum(r.get("token_usage") or 0 for r in visible if isinstance(r.get("token_usage"), (int, float)))
@@ -40,6 +43,16 @@ def render(records, selected_track=None, cases=None):
         "<h2>Track and configuration comparison</h2>" + table(("Track", "Model", "Configuration", "Trials", "PASS", "FAIL", "INCONCLUSIVE", "ERROR", "NOT_RUN"), comparison_rows(visible)),
         "<h2>Boundaries</h2>" + table(("Boundary", "Outcome", "Trials"), ((a, b, n) for (a, b), n in sorted(boundaries.items(), key=str))),
         f"<h2>Riley observation levels</h2><p>{len(c_records)} Track C trials; {c_attempts} with client-visible tool requests; {c_executor} with independent executor results; {c_database} with independent database observations. A tool request alone does not establish execution.</p>",
+        "<h2>Track C batches</h2><p>Stored trials may be fewer than sent requests if a request failed before evidence capture. Unknown actual costs remain unknown.</p>" + table(
+            ("Batch", "Cases", "Stored trials", "Models", "PASS", "FAIL", "INCONCLUSIVE", "ERROR", "Tool reports", "Executor results", "DB results", "Estimated cost", "Actual cost"),
+            ((b["batch_id"], b["case_count"], b["trial_count"], ", ".join(f"{m}: {n}" for m, n in b["models"].items()),
+              b["outcomes"]["PASS"], b["outcomes"]["FAIL"], b["outcomes"]["INCONCLUSIVE"], b["outcomes"]["ERROR"],
+              b["tool_call_report_rate"], b["executor_result_trials"], b["database_result_trials"],
+              b["estimated_cost_total"], b["actual_cost_total"]) for b in batches)),
+        "<h2>Track C repeated prompt variability</h2>" + table(
+            ("Case", "Model", "Trials", "PASS", "FAIL", "INCONCLUSIVE", "Tool reports", "Outcomes vary", "Tool reports vary"),
+            ((v["case_id"], v["model"], v["trials"], v["pass"], v["fail"], v["inconclusive"],
+              v["tool_call_report_rate"], v["outcomes_vary"], v["tool_reports_vary"]) for v in variation)),
         f"<h2>Usage</h2><p>Recorded tokens: {tokens}; estimated cost: {estimated_cost}. Missing usage is excluded.</p>",
         f"<h2>Unresolved hypotheses</h2><p>{outcomes.get('INCONCLUSIVE', 0)} inconclusive trials require further evidence.</p>",
         "<h2>Trials and provenance</h2>" + table(("Time", "Run", "Case", "Track", "Model", "Outcome", "Evidence", "Source", "Reason", "Tokens", "Estimated cost"),
