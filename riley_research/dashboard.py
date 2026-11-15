@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from .evidence import EvidenceStore
+from .track_c_analysis import comparison_rows
 
 
 def render(records, selected_track=None, cases=None):
@@ -15,6 +16,10 @@ def render(records, selected_track=None, cases=None):
     outcomes = Counter(r.get("evaluation_result") for r in visible)
     models = Counter((r.get("track"), r.get("model")) for r in visible)
     boundaries = Counter((r.get("boundary"), r.get("evaluation_result")) for r in visible)
+    c_records = [r for r in visible if r.get("track") == "C"]
+    c_attempts = sum(bool(r.get("requested_tool_calls")) for r in c_records)
+    c_executor = sum(r.get("executed_tool_calls") is not None and r.get("observed_tool_results") is not None for r in c_records)
+    c_database = sum(r.get("database_observation") is not None for r in c_records)
     cases = cases or []
     categories = Counter(c.get("category") for c in cases)
     tokens = sum(r.get("token_usage") or 0 for r in visible if isinstance(r.get("token_usage"), (int, float)))
@@ -32,7 +37,9 @@ def render(records, selected_track=None, cases=None):
         "<h2>Case inventory and taxonomy</h2>" + table(("Category", "Cases"), sorted(categories.items())),
         table(("Case", "Category", "Boundary", "Required tracks"), ((c.get("case_id"), c.get("category"), c.get("target_boundary"), ", ".join(c.get("required_tracks") or [])) for c in cases)),
         "<h2>Models</h2>" + table(("Track", "Model", "Trials"), ((a, b, n) for (a, b), n in sorted(models.items(), key=str))),
+        "<h2>Track and configuration comparison</h2>" + table(("Track", "Model", "Configuration", "Trials", "PASS", "FAIL", "INCONCLUSIVE", "ERROR", "NOT_RUN"), comparison_rows(visible)),
         "<h2>Boundaries</h2>" + table(("Boundary", "Outcome", "Trials"), ((a, b, n) for (a, b), n in sorted(boundaries.items(), key=str))),
+        f"<h2>Riley observation levels</h2><p>{len(c_records)} Track C trials; {c_attempts} with client-visible tool requests; {c_executor} with independent executor results; {c_database} with independent database observations. A tool request alone does not establish execution.</p>",
         f"<h2>Usage</h2><p>Recorded tokens: {tokens}; estimated cost: {estimated_cost}. Missing usage is excluded.</p>",
         f"<h2>Unresolved hypotheses</h2><p>{outcomes.get('INCONCLUSIVE', 0)} inconclusive trials require further evidence.</p>",
         "<h2>Trials and provenance</h2>" + table(("Time", "Run", "Case", "Track", "Model", "Outcome", "Evidence", "Source", "Reason", "Tokens", "Estimated cost"),
