@@ -1,5 +1,9 @@
 # Track C Campaign Handoff
 
+## Latest checkpoint: stopped in wave-06
+
+Wave-06 stopped automatically on HTTP 502 after 6 of its 20 planned attempts. Campaign total: 286/300 attempts, configured estimate $6.21/$30; actual charges unknown. Fourteen wave-06 IDs remain unattempted. Ledger and campaign evidence match, and hashes verify. Failed trial evidence ID: e9f920f14563fe38. Investigate and reconcile this error before future requests; do not retry failed trials or restart an already attempted manifest. Dashboard contains 13 A, 59 B and 297 C records. The sections below retain historical checkpoints.
+
 ## Current safety update: wave-02 interrupted
 
 Wave-02 stopped after 16 attempts: 15 responses and one `URLError` on TC-003. The campaign ledger contains 96 attempts, including that failure; the server-side outcome and original exception reason are unknown. The remaining sections describe the older wave-01 checkpoint and must not be used as the current ledger state.

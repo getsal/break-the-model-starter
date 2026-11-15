@@ -131,3 +131,52 @@
 - Files changed: riley_research/remote.py, riley_research/campaign_runner.py, riley_research/evidence.py, tests/test_campaign_runner.py, docs/track-c-campaign-handoff.md, state/current.md, logs/worklog.md, CHAT_HANDOFF.md.
 - Next action: Commit the validated local changes; campaign remains paused pending reconciliation.
 - Blockers: Historical failed POST outcome and reason remain unknown.
+
+## 2026-11-15T03:37:32.015741+01:00 — Resume wave-02
+- Task: Resume campaign under the user-directed 300 POST and $30 limits.
+- Result: Ledger and evidence each have 96 records with matching hashes; historical error remains counted with server outcome unknown. Prepared 34 unattempted independent trials. Models endpoint returned 200 and both models were listed; 42 tests passed.
+- Files changed: state/current.md, logs/worklog.md, ignored artifacts/wave-02-remaining.json.
+- Next action: Run remaining wave-02 and validate evidence.
+- Blockers: Actual charges, historical error cause and server outcome remain unknown.
+
+## 2026-11-15T03:39:24.196123+01:00 — Wave-02 completed
+- Task: Execute remaining wave-02 trials and consolidate evidence.
+- Result: 34 new responses without errors; wave totals 49 ok and one historical error. Ledger/evidence match at 130 attempts; all hashes verify; Dashboard store and Kumu updated.
+- Files changed: docs/track-c-campaign-report.md, state/current.md, logs/worklog.md and ignored evidence, Dashboard and Kumu artifacts.
+- Next action: Update Issue and execute wave-03.
+- Blockers: Historical failed POST outcome, actual charges and organizer time/rate terms remain unknown.
+
+## 2026-11-15T03:41:47.865704+01:00 — wave-03 verified
+- Task: Execute and consolidate wave-03.
+- Result: 50 records, outcomes {'PASS': 2, 'FAIL': 0, 'INCONCLUSIVE': 48, 'ERROR': 0, 'NOT_RUN': 0}; campaign 180 attempts, estimated $3.825; ledger and hashes verified, Dashboard and Kumu updated.
+- Files changed: docs/track-c-campaign-report.md, logs/worklog.md and ignored evidence, dashboard and Kumu artifacts.
+- Next action: Update Issue and evaluate the next wave.
+- Blockers: Actual charges and historical failed POST outcome unknown.
+
+## 2026-11-15T03:44:32.100703+01:00 — wave-04 verified
+- Task: Execute and consolidate wave-04.
+- Result: 50 records, outcomes {'PASS': 4, 'FAIL': 0, 'INCONCLUSIVE': 45, 'ERROR': 1, 'NOT_RUN': 0}; campaign 230 attempts, estimated $4.95; ledger and hashes verified, Dashboard and Kumu updated.
+- Files changed: docs/track-c-campaign-report.md, logs/worklog.md and ignored evidence, dashboard and Kumu artifacts.
+- Next action: Update Issue and evaluate the next wave.
+- Blockers: Actual charges and historical failed POST outcome unknown.
+
+## 2026-11-15T03:47:55.262734+01:00 — wave-05 verified
+- Task: Execute and consolidate wave-05.
+- Result: 50 records, outcomes {'PASS': 2, 'FAIL': 0, 'INCONCLUSIVE': 46, 'ERROR': 2, 'NOT_RUN': 0}; campaign 280 attempts, estimated $6.075; ledger and hashes verified, Dashboard and Kumu updated.
+- Files changed: docs/track-c-campaign-report.md, logs/worklog.md and ignored evidence, dashboard and Kumu artifacts.
+- Next action: Update Issue and evaluate the next wave.
+- Blockers: Actual charges and historical failed POST outcome unknown.
+
+## 2026-11-15T03:48:35.222267+01:00 — wave-06 verified
+- Task: Execute and consolidate wave-06.
+- Result: 6 records, outcomes {'PASS': 0, 'FAIL': 0, 'INCONCLUSIVE': 5, 'ERROR': 1, 'NOT_RUN': 0}; campaign 286 attempts, estimated $6.21; ledger and hashes verified, Dashboard and Kumu updated.
+- Files changed: docs/track-c-campaign-report.md, logs/worklog.md and ignored evidence, dashboard and Kumu artifacts.
+- Next action: Update Issue and evaluate the next wave.
+- Blockers: Actual charges and historical failed POST outcome unknown.
+
+## 2026-11-15T03:49:00.426077+01:00 — Campaign stopped on HTTP 502
+- Task: Complete wave-06 under Runner stop conditions.
+- Result: Six attempts, five responses and one HTTP 502; runner stopped. Campaign total 286 attempts, $6.21 estimated. Ledger, evidence and Dashboard hashes verify; Issue updated. Fourteen wave-06 trials remain unattempted.
+- Files changed: docs/track-c-campaign-report.md, state/current.md, logs/worklog.md, CHAT_HANDOFF.md and ignored evidence/dashboard artifacts.
+- Next action: Investigate HTTP 502 and reconcile server outcome before further requests.
+- Blockers: HTTP 502 cause, server-side result and actual charges unknown.

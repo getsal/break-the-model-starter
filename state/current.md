@@ -1,23 +1,23 @@
 # Current State
 
 ## Active Task
-Runner error handling completed locally; campaign remains paused during wave-02.
+Track C campaign stopped in wave-06 by HTTP error.
 
 ## Current Status
-Local failure simulations and 36 tests passed. Wave-02 stopped automatically at its 16th attempted POST due to URLError: 15 successful responses and one error. Campaign ledger has 96 attempts, 95 ok and one error, estimated $1.935; actual charges unknown. Campaign evidence has 96 records and hashes verify. Wave-02: 1 PASS, 14 INCONCLUSIVE, 1 ERROR; 15 unique returned turn IDs.
+Campaign ledger and evidence match at 286/300 attempts, estimated $6.21/$30, actual cost unknown. Wave-06 stopped at attempt 6 due to HTTP 502; 5 ok and 1 ERROR. All campaign and Dashboard evidence hashes verify. Fourteen wave-06 trial IDs remain unattempted. Dashboard: 13 A, 59 B, 297 C; Kumu: 191 elements, 347 connections.
 
 ## Next Action
-Investigate and reconcile the historical failed POST before considering future campaign execution; follow docs/track-c-campaign-handoff.md.
+Investigate HTTP 502 and reconcile server-side outcome before any further requests; preserve all ledger and evidence.
 
 ## Blockers
-A subsequent read-only /models request returned HTTP 200; the URLError cause and server-side outcome remain unknown. Organizer rate/time terms and actual charges remain unknown; executor/DB outcomes are unavailable.
+HTTP 502 cause and server-side outcome unknown; actual charges and organizer time/rate terms unknown. Earlier failed requests were not retried.
 
 ## Relevant Files
-- docs/track-c-campaign-handoff.md
 - docs/track-c-campaign-report.md
+- docs/track-c-campaign-handoff.md
 - artifacts/campaign-ledger.sqlite
 - artifacts/campaign-evidence.sqlite
-- research/track_c_campaign_wave-02.json
+- research/track_c_campaign_wave-06.json
 
 ## Handover Note
-Do not restart the manifest blindly: trial IDs already exist in the ledger. No later wave was started.
+Do not restart the full manifest or retry failed trials. Follow the Runner stop condition and investigate the HTTP error first.
