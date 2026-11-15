@@ -22,6 +22,18 @@ class LocalBoundaryTests(unittest.TestCase):
                          max_requests=1, min_interval_seconds=1, participant="synthetic", team_token="",
                          api_key="", model="model")
 
+    def test_database_variants_use_trusted_role(self):
+        db = synthetic_db()
+        try:
+            _, _, broad = query_db(db, {"scope": "all", "role": "staff"}, VARIANTS["B"])
+            self.assertEqual(broad["status"], "rejected")
+            _, _, least = query_db(db, {"scope": "all"}, VARIANTS["C"], trusted_role="staff")
+            self.assertEqual(least["status"], "denied")
+            _, _, rows = query_db(db, {"scope": "all"}, VARIANTS["D"], trusted_role="staff")
+            self.assertEqual([r["id"] for r in rows["rows"]], ["P-001"])
+        finally:
+            db.close()
+
 
 if __name__ == "__main__":
     unittest.main()

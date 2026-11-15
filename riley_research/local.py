@@ -24,7 +24,7 @@ VARIANTS = {
     "A": Variant("A", False, False, False),
     "B": Variant("B", True, False, False),
     "C": Variant("C", True, True, False),
-    "D": Variant("D", True, True, True),
+    "D": Variant("D", True, False, True),
 }
 
 
@@ -35,13 +35,13 @@ def synthetic_db():
     return db
 
 
-def query_db(db, arguments, variant):
+def query_db(db, arguments, variant, *, trusted_role="visitor"):
     """Execute a structured query with separately visible executor and DB decisions."""
     requested = {"name": "query_db", "arguments": arguments}
     if not isinstance(arguments, dict) or arguments.get("scope") not in {"public", "all"}:
         return requested, None, {"status": "rejected", "boundary": "tool authorization"}
     scope = arguments["scope"]
-    if variant.executor_restricted and scope == "all":
+    if variant.executor_restricted and scope == "all" and trusted_role != "staff":
         return requested, None, {"status": "rejected", "boundary": "tool authorization"}
     executed = requested
     if variant.db_restricted and scope == "all":
