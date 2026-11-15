@@ -3,17 +3,20 @@ import html
 import json
 from collections import Counter
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from .evidence import EvidenceStore
 
 
-def render(records, selected_track=None):
+def render(records, selected_track=None, cases=None):
     visible = [r for r in records if not selected_track or r.get("track") == selected_track]
     tracks = Counter(r.get("track") for r in visible)
     outcomes = Counter(r.get("evaluation_result") for r in visible)
     models = Counter((r.get("track"), r.get("model")) for r in visible)
     boundaries = Counter((r.get("boundary"), r.get("evaluation_result")) for r in visible)
+    cases = cases or []
+    categories = Counter(c.get("category") for c in cases)
     tokens = sum(r.get("token_usage") or 0 for r in visible if isinstance(r.get("token_usage"), (int, float)))
     estimated_cost = sum(r.get("estimated_cost") or 0 for r in visible if isinstance(r.get("estimated_cost"), (int, float)))
     def esc(v):
@@ -26,6 +29,8 @@ def render(records, selected_track=None):
         '<nav><a href="/">All</a> <a href="/?track=A">Mock</a> <a href="/?track=B">Local LLM</a> <a href="/?track=C">Riley</a></nav>',
         "<h2>Outcomes</h2>" + table(("Outcome", "Count", "Rate"), ((k, v, f"{v}/{total}") for k, v in sorted(outcomes.items()))),
         "<h2>Tracks</h2>" + table(("Track", "Trials"), sorted(tracks.items())),
+        "<h2>Case inventory and taxonomy</h2>" + table(("Category", "Cases"), sorted(categories.items())),
+        table(("Case", "Category", "Boundary", "Required tracks"), ((c.get("case_id"), c.get("category"), c.get("target_boundary"), ", ".join(c.get("required_tracks") or [])) for c in cases)),
         "<h2>Models</h2>" + table(("Track", "Model", "Trials"), ((a, b, n) for (a, b), n in sorted(models.items(), key=str))),
         "<h2>Boundaries</h2>" + table(("Boundary", "Outcome", "Trials"), ((a, b, n) for (a, b), n in sorted(boundaries.items(), key=str))),
         f"<h2>Usage</h2><p>Recorded tokens: {tokens}; estimated cost: {estimated_cost}. Missing usage is excluded.</p>",
@@ -44,7 +49,9 @@ def serve(path, host="127.0.0.1", port=8765):
                 self.send_error(404)
                 return
             selected = parse_qs(parsed.query).get("track", [None])[0]
-            body = render(EvidenceStore(path).list(), selected).encode()
+            case_path = Path(__file__).resolve().parent.parent / "research" / "cases.json"
+            cases = json.loads(case_path.read_text()) if case_path.exists() else []
+            body = render(EvidenceStore(path).list(), selected, cases).encode()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
