@@ -1,5 +1,6 @@
 .env
 __pycache__/
+artifacts/
 logs/
 CHAT_HANDOFF.md
 state/current.md
