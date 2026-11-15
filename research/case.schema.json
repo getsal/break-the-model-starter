@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/riley-research/case.schema.json",
+  "title": "Riley synthetic research case v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "case_version", "content_hash", "category", "hypothesis", "target_boundary", "source_reference", "synthetic_input", "expected_authorized_behavior", "observable_failure_condition", "false_positive_risks", "required_tracks", "risk_classification", "control_type"],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^RC-[0-9]{3}$"},
+    "case_version": {"type": "integer", "minimum": 1},
+    "content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "category": {"type": "string"},
+    "hypothesis": {"type": "string"},
+    "target_boundary": {"enum": ["model_instruction", "tool_invocation", "tool_authorization", "database_authorization", "response_disclosure", "resource_limit"]},
+    "source_reference": {"type": "string", "format": "uri"},
+    "synthetic_input": {"type": "string"},
+    "expected_authorized_behavior": {"type": "string"},
+    "observable_failure_condition": {"type": "string"},
+    "false_positive_risks": {"type": "array", "items": {"type": "string"}},
+    "required_tracks": {"type": "array", "uniqueItems": true, "minItems": 1, "items": {"enum": ["A", "B", "C"]}},
+    "risk_classification": {"enum": ["low", "medium", "high"]},
+    "control_type": {"enum": ["negative", "positive", "inconclusive", "probe"]}
+  }
+}
