@@ -61,3 +61,10 @@
 - Files changed: `research/track_c_cases.json`, `research/track_c_selection.md`, `riley_research/track_c_run.py`, `riley_research/track_c_review.py`, `riley_research/track_b_compare.py`, `riley_research/track_c_analysis.py`, `riley_research/dashboard.py`, `docs/reproduction-report.md`, tests, `state/current.md`, `logs/worklog.md`; ignored local SQLite artifacts.
 - Next action: Run full tests, review report and code, commit/publish, update ORCA-5 Issue.
 - Blockers: Current organizer time/rate terms, actual provider charges, and independent Riley executor/DB observations are unavailable.
+
+## 2026-11-15 — Track C integration reviewed
+- Task: Publish the bounded Riley batch and link its evidence-based findings to ORCA Issues.
+- Result: Twenty-four Python tests, compileall, evidence integrity, Dashboard Track C rendering, and Kumu generation passed. Published the branch and updated Issues #2, #4–#9. Report now distinguishes the TC-001 tool-call observation and TC-007 model claim from independently verified executor/DB facts.
+- Files changed: `docs/reproduction-report.md`, `state/current.md`, `logs/worklog.md`; GitHub Issues #2, #4–#9.
+- Next action: Resolve open hypotheses only when independent tool/executor evidence and current organizer constraints are available.
+- Blockers: Actual API charges, current event time/rate terms, and Riley executor/DB observations remain unavailable.

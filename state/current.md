@@ -7,10 +7,10 @@ Run bounded Track C experiments against the user-authorized official Riley chall
 Implemented and integrated the Track A/B base plus a bounded Track C batch. Track A has 13 fixture records. Track B has 59 local records, including seven same-prompt comparisons. Track C has 11 stored trial records: nine from eight new cases (4 PASS, 0 FAIL, 5 INCONCLUSIVE) plus two earlier inconclusive probes. The cumulative workspace POST count is 12, including one earlier benign request without a trial record. Evidence integrity verifies.
 
 ## Next Action
-Validate the updated evidence/dashboard/report pipeline, commit the Track C implementation, and update GitHub Issue #6 with supported findings and remaining hypotheses.
+Investigate TC-001 reported tool-call arguments/execution and the TC-007 tool-schema claim only if an authorized observation path becomes available. Continue ORCA-0–8 open work without treating model claims as verified internals.
 
 ## Blockers
-The user confirmed organizer permission and prioritized Track C at the specified official host. The nine-request batch used at least eight-second spacing and a configured $0.045 estimate under a $0.06 ceiling. Current event time window and rate terms remain unstated; actual provider charges and Riley executor/DB results are unavailable.
+The user confirmed organizer permission and prioritized Track C at the specified official host. The nine-request batch used at least eight-second spacing and a configured $0.045 estimate under a $0.06 ceiling. Current event time window and rate terms remain unstated; actual provider charges and Riley executor/DB results are unavailable. Track C code and related Issues are published.
 
 ## Relevant Files
 - docs/Orca Implementation Plan v2.md
