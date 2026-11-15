@@ -1,16 +1,16 @@
 # Current State
 
 ## Active Task
-Maintain Riley Research Platform v2 and track ORCA-0–8 work in GitHub Issues.
+Run bounded Track C experiments against the user-authorized official Riley challenge environment and integrate evidence.
 
 ## Current Status
-Implemented and integrated ORCA-0/1/2/4 plus local simulation, gated remote adapter, dashboard, and expanded Kumu export. Track A produced 13 revised fixture records; Track B ran 13 cases per A/B/C/D configuration. Sixteen unit tests pass; evidence integrity verifies. Revised classifications are 10 PASS, 1 deliberately weak synthetic FAIL, and 2 INCONCLUSIVE for Track A; 2 local authorization PASS and 11 INCONCLUSIVE for Track B variant B. Track C made three bounded POST requests, with two metadata-only inconclusive probe records.
+Implemented and integrated the Track A/B base plus a bounded Track C batch. Track A has 13 fixture records. Track B has 59 local records, including seven same-prompt comparisons. Track C has 11 stored trial records: nine from eight new cases (4 PASS, 0 FAIL, 5 INCONCLUSIVE) plus two earlier inconclusive probes. The cumulative workspace POST count is 12, including one earlier benign request without a trial record. Evidence integrity verifies.
 
 ## Next Action
-Address the open tasks in Issues #1–#9, starting with independent case-specific scoring and a clean-environment reproduction. Keep additional Track C execution on hold until current organizer terms are confirmed.
+Validate the updated evidence/dashboard/report pipeline, commit the Track C implementation, and update GitHub Issue #6 with supported findings and remaining hypotheses.
 
 ## Blockers
-The user authorized Track C and provided the host; connectivity and three bounded POST requests succeeded. Continuing organizer time-window and rate terms remain unverified, and actual provider charges are unavailable. GitHub Issues are enabled; ORCA-0–8 are Issues #1–#9 with dependency and deliverable links. The implementation branch is published to origin. Riley internals and Supabase private schema permissions remain unknown.
+The user confirmed organizer permission and prioritized Track C at the specified official host. The nine-request batch used at least eight-second spacing and a configured $0.045 estimate under a $0.06 ceiling. Current event time window and rate terms remain unstated; actual provider charges and Riley executor/DB results are unavailable.
 
 ## Relevant Files
 - docs/Orca Implementation Plan v2.md
@@ -22,4 +22,4 @@ The user authorized Track C and provided the host; connectivity and three bounde
 - GitHub Issues #1–#9 in getsal/break-the-model-starter
 
 ## Handover Note
-Track C metadata observations are inconclusive and do not establish a Riley vulnerability. Do not broaden live tests without current organizer scope.
+Track C PASS results are limited to observable model or tool-invocation behavior for exact synthetic prompts. The TC-001 reported tool call does not establish execution or DB access. Do not infer a Riley vulnerability from current evidence.

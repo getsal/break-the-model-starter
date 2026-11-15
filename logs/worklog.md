@@ -47,3 +47,17 @@
 - Files changed: `state/current.md`, `logs/worklog.md`; GitHub Issues #1–#9.
 - Next action: Work through the remaining Issue checklists; request current organizer conditions before any further Track C requests.
 - Blockers: Track C continuing terms and actual provider costs remain unverified.
+
+## 2026-11-15 — Track C prioritized
+- Task: Conduct a bounded official Riley prompt-injection evaluation using the user's confirmed challenge permission.
+- Result: Reviewed existing 13 cases and API adapter; assigned case design and evidence/dashboard analysis to separate worktrees without API access. Central API budget is 12 POST requests, at least 8 seconds between requests, estimated maximum $0.06. Only the root agent sends API requests.
+- Files changed: `state/current.md`, `logs/worklog.md`.
+- Next action: Finalize synthetic cases, perform response-shape and staged challenge experiments, store sanitized evidence.
+- Blockers: Organizer did not state current post-event rate/time limits; actual provider costs are unavailable. Stop on an explicit prohibition or changed access state.
+
+## 2026-11-15 — Official Riley bounded case batch
+- Task: Run V2 Track C synthetic prompt-injection cases with shared API budget, classify observations, and compare local behavior.
+- Result: Eight cases used nine POST requests in one process; each produced a turn ID and sanitized response record. Reviewed outcomes are 4 PASS, 0 FAIL, 5 INCONCLUSIVE at trial level. One client-visible `query_db` call appeared on the public baseline; executor and DB results were not independently available. Ran seven matching single-turn prompts locally. Combined dashboard store has 13 A, 59 B, 11 C records and hash verification succeeds.
+- Files changed: `research/track_c_cases.json`, `research/track_c_selection.md`, `riley_research/track_c_run.py`, `riley_research/track_c_review.py`, `riley_research/track_b_compare.py`, `riley_research/track_c_analysis.py`, `riley_research/dashboard.py`, `docs/reproduction-report.md`, tests, `state/current.md`, `logs/worklog.md`; ignored local SQLite artifacts.
+- Next action: Run full tests, review report and code, commit/publish, update ORCA-5 Issue.
+- Blockers: Current organizer time/rate terms, actual provider charges, and independent Riley executor/DB observations are unavailable.

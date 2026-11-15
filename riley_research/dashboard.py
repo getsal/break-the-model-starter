@@ -56,8 +56,12 @@ def serve(path, host="127.0.0.1", port=8765):
                 self.send_error(404)
                 return
             selected = parse_qs(parsed.query).get("track", [None])[0]
-            case_path = Path(__file__).resolve().parent.parent / "research" / "cases.json"
-            cases = json.loads(case_path.read_text()) if case_path.exists() else []
+            research_dir = Path(__file__).resolve().parent.parent / "research"
+            cases = []
+            for name in ("cases.json", "track_c_cases.json"):
+                case_path = research_dir / name
+                if case_path.exists():
+                    cases.extend(json.loads(case_path.read_text()))
             body = render(EvidenceStore(path).list(), selected, cases).encode()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
