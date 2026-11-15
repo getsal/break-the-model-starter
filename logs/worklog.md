@@ -180,3 +180,17 @@
 - Files changed: docs/track-c-campaign-report.md, state/current.md, logs/worklog.md, CHAT_HANDOFF.md and ignored evidence/dashboard artifacts.
 - Next action: Investigate HTTP 502 and reconcile server outcome before further requests.
 - Blockers: HTTP 502 cause, server-side result and actual charges unknown.
+
+## 2026-11-15T04:02:18.810796+01:00 — Audit campaign and concurrent review
+- Task: Audit unpushed commits, evidence, 257 inconclusive records and safe continuation.
+- Result: Both commits inspected; concurrent second-pass review identified in b808149 and retained as historical with explicit limits. Ledger and evidence match at 286; Dashboard contains all campaign hashes. Classified 257 by capture-time decision path: 181 unscored variants, 50 base cases without a rule, 26 unmatched base rules. Read-only /models returned 200 but does not verify /chat recovery or actual usage limits.
+- Files changed: docs/track-c-audit-286.md, docs/track-c-campaign-report.md, state/current.md, logs/worklog.md. Untracked review code and tests preserved.
+- Next action: Test, commit corrective documentation separately and push; leave remaining 14 attempts pending independent recovery evidence.
+- Blockers: HTTP 502 cause and /chat recovery, actual costs and service usage limits unknown.
+
+## 2026-11-15T04:05+01:00 — Offline oracle review (Claude session)
+- Task: Analyse stored campaign evidence and review the capture-time oracle; no API requests.
+- Result: Added an offline second-pass review. Over 286 records it gives 179 PASS, 1 FAIL, 101 INCONCLUSIVE (87 structural), 5 ERROR, versus 24/0/257/5 at capture time. 42 unit tests pass; original evidence store unchanged and verified. A concurrent agent session ran wave-02 to wave-06 and edited the campaign report during this work, so the 286-record review lives in its own document.
+- Files changed: riley_research/campaign_review.py, tests/test_campaign_review.py, docs/track-c-oracle-review.md, docs/track-c-campaign-report.md (96-record section, since relabelled by the other session), CHAT_HANDOFF.md (one sentence), logs/worklog.md; ignored artifacts/campaign-reviewed.sqlite.
+- Next action: User to decide whether to commit the review files and whether to wire the review rules into capture.
+- Blockers: Raw tool-call arguments were not retained, so six restricted-keyword candidates in gpt-oss TC-001 trials cannot be decided.
