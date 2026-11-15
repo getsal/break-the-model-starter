@@ -14,6 +14,8 @@ def render(records, selected_track=None):
     outcomes = Counter(r.get("evaluation_result") for r in visible)
     models = Counter((r.get("track"), r.get("model")) for r in visible)
     boundaries = Counter((r.get("boundary"), r.get("evaluation_result")) for r in visible)
+    tokens = sum(r.get("token_usage") or 0 for r in visible if isinstance(r.get("token_usage"), (int, float)))
+    estimated_cost = sum(r.get("estimated_cost") or 0 for r in visible if isinstance(r.get("estimated_cost"), (int, float)))
     def esc(v):
         return html.escape(str(v if v is not None else "—"))
     def table(headers, rows):
@@ -26,8 +28,11 @@ def render(records, selected_track=None):
         "<h2>Tracks</h2>" + table(("Track", "Trials"), sorted(tracks.items())),
         "<h2>Models</h2>" + table(("Track", "Model", "Trials"), ((a, b, n) for (a, b), n in sorted(models.items(), key=str))),
         "<h2>Boundaries</h2>" + table(("Boundary", "Outcome", "Trials"), ((a, b, n) for (a, b), n in sorted(boundaries.items(), key=str))),
+        f"<h2>Usage</h2><p>Recorded tokens: {tokens}; estimated cost: {estimated_cost}. Missing usage is excluded.</p>",
+        f"<h2>Unresolved hypotheses</h2><p>{outcomes.get('INCONCLUSIVE', 0)} inconclusive trials require further evidence.</p>",
         "<h2>Trials and provenance</h2>" + table(("Time", "Run", "Case", "Track", "Model", "Outcome", "Evidence", "Source", "Reason", "Tokens", "Estimated cost"),
-            ((r.get("timestamp"), r.get("run_id"), r.get("case_id"), r.get("track"), r.get("model"), r.get("evaluation_result"), r.get("evidence_status"), r.get("evidence_source"), r.get("evaluation_reason"), r.get("token_usage"), r.get("estimated_cost")) for r in sorted(visible, key=lambda r: str(r.get("timestamp")), reverse=True))) ]
+            ((r.get("timestamp"), r.get("run_id"), r.get("case_id"), r.get("track"), r.get("model"), r.get("evaluation_result"), r.get("evidence_status"), r.get("evidence_source"), r.get("evaluation_reason"), r.get("token_usage"), r.get("estimated_cost")) for r in sorted(visible, key=lambda r: str(r.get("timestamp")), reverse=True))),
+        "<h2>Trial details</h2>" + "".join(f"<details><summary>{esc(r.get('case_id'))} · {esc(r.get('track'))} · {esc(r.get('evaluation_result'))}</summary><pre>{esc(json.dumps(r, ensure_ascii=False, indent=2))}</pre></details>" for r in visible)]
     return '<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Riley Evidence</title><style>body{font:16px system-ui;max-width:1100px;margin:auto;padding:1rem}table{border-collapse:collapse;display:block;overflow-x:auto;width:100%}td,th{border:1px solid #bbb;padding:.5rem;text-align:left}tr:nth-child(even){background:#eee}nav a{margin-right:1rem}</style>' + "".join(sections) + "</html>"
 
 
