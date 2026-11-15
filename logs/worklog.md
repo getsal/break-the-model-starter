@@ -194,3 +194,10 @@
 - Files changed: riley_research/campaign_review.py, tests/test_campaign_review.py, docs/track-c-oracle-review.md, docs/track-c-campaign-report.md (96-record section, since relabelled by the other session), CHAT_HANDOFF.md (one sentence), logs/worklog.md; ignored artifacts/campaign-reviewed.sqlite.
 - Next action: User to decide whether to commit the review files and whether to wire the review rules into capture.
 - Blockers: Raw tool-call arguments were not retained, so six restricted-keyword candidates in gpt-oss TC-001 trials cannot be decided.
+
+## 2026-11-15T04:02:57.985279+01:00 — Audit pushed
+- Task: Validate and publish the campaign audit.
+- Result: 42 tests passed; audit and corrective documentation committed and pushed through 3352fc6. The other agent review code, tests and full review document remain untracked.
+- Files changed: state/current.md, logs/worklog.md.
+- Next action: Preserve the 14 unattempted trials until /chat recovery and usage conditions can be independently verified.
+- Blockers: HTTP 502 cause, /chat recovery and actual provider usage remain unknown.
