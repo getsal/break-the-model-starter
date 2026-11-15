@@ -14,7 +14,7 @@ class RileyAdapter:
             raise PermissionError("Track C requires explicit user approval")
         if parsed.scheme != "https" or parsed.hostname != allowed_host or not parsed.hostname:
             raise ValueError("Endpoint must be an approved HTTPS host")
-        if not 0 < max_requests <= 20 or min_interval_seconds < 1:
+        if not 0 < max_requests <= 300 or min_interval_seconds < 1:
             raise ValueError("Invalid bounded execution limits")
         if max_estimated_cost <= 0 or estimated_cost_per_request <= 0 or max_requests * estimated_cost_per_request > max_estimated_cost:
             raise ValueError("Estimated spending cap exceeded")

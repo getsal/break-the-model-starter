@@ -68,3 +68,31 @@
 - Files changed: `docs/reproduction-report.md`, `state/current.md`, `logs/worklog.md`; GitHub Issues #2, #4–#9.
 - Next action: Resolve open hypotheses only when independent tool/executor evidence and current organizer constraints are available.
 - Blockers: Actual API charges, current event time/rate terms, and Riley executor/DB observations remain unavailable.
+
+## 2026-11-15 — Staged Track C campaign authorized
+- Task: Scale the official Riley evaluation to at most 300 additional POST requests and $5 estimated Nebius cost.
+- Result: Assigned synthetic campaign design and analysis to independent worktrees without API access. Root retains exclusive API execution. Planned 30-POST pilot, then approximately 50-POST stages with a persistent shared budget ledger. `/models` still returned 200 and advertised Nebius models but no pricing fields.
+- Files changed: `state/current.md`, `logs/worklog.md`, `riley_research/remote.py`.
+- Next action: Implement and validate the global ledger and pilot manifest, then execute the pilot.
+- Blockers: Actual provider charges and current organizer time/rate terms are unavailable; stop on API errors or explicit restrictions.
+
+## 2026-11-15 — Track C pilot completed
+- Task: Execute and evaluate the 30-POST pilot under the campaign ledger.
+- Result: 30/30 requests returned unique turn IDs; 8 PASS, 0 FAIL, 22 INCONCLUSIVE, 0 ERROR. TC-001 reported `query_db` in all 6 identical repetitions; tool execution/DB result remains unverified. Evidence hashes verify, actual cost unknown, configured estimate $0.45. Both intended Nebius models remain listed by `/models` for the next 50-POST stage.
+- Files changed: `docs/track-c-campaign-report.md`, `riley_research/campaign_runner.py`, `tests/test_campaign_runner.py`, `logs/worklog.md`; ignored local campaign SQLite stores.
+- Next action: Execute `wave-01` with 25 prompts per model, inspect safe tool-argument summaries and batch evidence.
+- Blockers: Actual charges and independent executor/DB results remain unavailable.
+
+## 2026-11-15 — Campaign budget and interval revised
+- Task: Apply the user's increased campaign cost allowance and faster spacing to subsequent batches.
+- Result: Raised the configured additional estimated-cost ceiling from $5 to $30 and changed the global ledger spacing from eight to two seconds. The completed pilot retains its historical $0.45 estimate and eight-second spacing. The 300-POST ceiling and stop-on-error behavior remain in force.
+- Files changed: `riley_research/campaign_runner.py`, `research/track_c_campaign_design.md`, `docs/track-c-campaign-report.md`, `state/current.md`, `logs/worklog.md`.
+- Next action: Run wave-01 with 50 POSTs and inspect responses, tool-argument summaries, costs and error state before expanding.
+- Blockers: Actual charges and current organizer rate/time terms remain unavailable.
+
+## 2026-11-15 — Wave-01 completed and campaign handed off
+- Task: Execute the 50-POST two-model wave, consolidate evidence, and stop at the user's requested handoff boundary.
+- Result: All 50 wave requests succeeded; outcomes 4 PASS, 0 FAIL, 46 INCONCLUSIVE, 0 ERROR. Campaign total is 80/300 POST requests, estimated $1.575 under the configured $30 ceiling; actual charges unknown. All 80 turn IDs are unique and evidence hashes verify. Combined Dashboard store has 13 A, 59 B, 91 C records; Kumu has 149 elements and 252 connections. No subsequent wave was started.
+- Files changed: `docs/track-c-campaign-report.md`, `docs/track-c-campaign-handoff.md`, `research/track_c_campaign_design.md`, `riley_research/campaign_runner.py`, `state/current.md`, `logs/worklog.md`, ignored local SQLite evidence/ledger/dashboard artifacts.
+- Next action: Validate tests and Git state, commit/publish this checkpoint, update ORCA Issues, then stop. Future session should inspect the handoff before any new API request.
+- Blockers: Current organizer time/rate terms, actual API charges, and independent Riley executor/DB results unavailable.
