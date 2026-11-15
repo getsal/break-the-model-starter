@@ -7,13 +7,17 @@ import re
 import sqlite3
 import time
 import uuid
+import errno
+import socket
+import ssl
+import urllib.error
 from contextlib import contextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
 
 from .evidence import EvidenceStore
-from .remote import RileyAdapter
+from .remote import RileyAdapter, HTTP_TIMEOUT_SECONDS
 from .track_c_run import HOST, safe_reply
 from .track_c_review import decision
 
@@ -25,6 +29,33 @@ MODEL_ESTIMATES = {
     "Qwen/Qwen3-30B-A3B-Instruct-2507": 0.015,
     "openai/gpt-oss-120b": 0.03,
 }
+
+def error_details(error):
+    """Keep only recognized, non-sensitive system reason text; never persist URLs or payloads."""
+    reason = getattr(error, "reason", error)
+    code = getattr(error, "code", None) if isinstance(error, urllib.error.HTTPError) else None
+    number = getattr(reason, "errno", None)
+    if isinstance(error, urllib.error.HTTPError):
+        category = "HTTP_ERROR"
+    elif isinstance(reason, (TimeoutError, socket.timeout)) or number == errno.ETIMEDOUT:
+        category = "TIMEOUT"
+    elif isinstance(reason, socket.gaierror):
+        category = "DNS_ERROR"
+    elif isinstance(reason, ssl.SSLError):
+        category = "TLS_ERROR"
+    elif isinstance(reason, (ConnectionError, ConnectionRefusedError, ConnectionResetError, BrokenPipeError)) or number in {errno.ECONNREFUSED, errno.ECONNRESET, errno.ECONNABORTED, errno.ENETUNREACH, errno.EHOSTUNREACH}:
+        category = "CONNECTION_ERROR"
+    else:
+        category = "UNKNOWN_ERROR"
+    # Arbitrary exception strings may contain secrets, URLs, or response bodies.
+    safe_messages = {"timed out", "The read operation timed out", "Connection refused", "Connection reset by peer", "Temporary failure in name resolution", "Name or service not known", "nodename nor servname provided, or not known"}
+    message = str(reason)
+    safe_reason = message if message in safe_messages else {"TIMEOUT": "Timed out [details redacted]", "DNS_ERROR": "Name resolution error [details redacted]", "TLS_ERROR": "TLS error [details redacted]", "CONNECTION_ERROR": "Connection error [details redacted]", "HTTP_ERROR": "HTTP error [details redacted]"}.get(category, "[REDACTED: unrecognized reason]")
+    if isinstance(number, int):
+        safe_reason += f" (errno {number})"
+    return {"exception_type": type(error).__name__, "reason_type": type(reason).__name__,
+            "reason": safe_reason, "classification": category, "http_status": code,
+            "timeout_seconds": HTTP_TIMEOUT_SECONDS}
 
 
 def summarize_tool_call(call):
@@ -84,6 +115,16 @@ class BudgetLedger:
             statuses = dict(db.execute("SELECT status, COUNT(*) FROM requests GROUP BY status"))
         return {"post_requests": count, "estimated_cost": round(cost, 4), "statuses": statuses}
 
+    def trailing_errors(self):
+        with self.connect() as db:
+            rows = db.execute("SELECT status FROM requests ORDER BY rowid DESC LIMIT 2").fetchall()
+        count = 0
+        for (status,) in rows:
+            if not status.startswith("error:"):
+                break
+            count += 1
+        return count
+
 
 def validate_manifest(trials):
     if not trials or len(trials) > 50:
@@ -118,7 +159,13 @@ def run_batch(manifest_path, ledger_path, store_path):
     conversations = {}
     adapters = {}
     completed = 0
+    consecutive_errors = ledger.trailing_errors()
+    if consecutive_errors >= 2:
+        raise RuntimeError("Two consecutive ledger errors require investigation")
+    failed_groups = set()
     for trial in trials:
+        if trial["conversation_group"] in failed_groups:
+            continue
         model = trial["model"]
         if model not in adapters:
             adapters[model] = RileyAdapter(endpoint=endpoint, approved=True, allowed_host=HOST,
@@ -135,9 +182,14 @@ def run_batch(manifest_path, ledger_path, store_path):
         try:
             response = adapters[model].chat(trial["prompt"], conversation)
             status = "ok"
+            details = None
+            consecutive_errors = 0
         except Exception as error:
             response = {}
             status = "error:" + type(error).__name__
+            details = error_details(error)
+            consecutive_errors += 1
+            failed_groups.add(group)
         calls = response.get("tool_calls") or []
         names = [summarize_tool_call(call) for call in calls if isinstance(call, dict)]
         record = {"run_id": trial["batch_id"], "case_id": trial["case_id"],
@@ -156,6 +208,9 @@ def run_batch(manifest_path, ledger_path, store_path):
             "boundary": trial["target_boundary"],
             "duration_ms": round((time.monotonic() - start) * 1000, 2),
             "estimated_cost": cost, "actual_cost": None}
+        if details is not None:
+            details["duration_ms"] = record["duration_ms"]
+            record["error_details"] = details
         if status == "ok" and trial.get("variant") == "base":
             result, reason = decision(record)
             record.update(evaluation_result=result, evaluation_reason=reason,
@@ -166,8 +221,8 @@ def run_batch(manifest_path, ledger_path, store_path):
         print(json.dumps({"trial_id": trial["trial_id"], "case_id": trial["case_id"],
             "status": status, "outcome": saved["evaluation_result"],
             "tool_calls": len(names), "evidence_id": saved["evidence_hash"][:16]}), flush=True)
-        if status != "ok":
-            break  # any API error stops the batch; no automatic retry
+        if details is not None and (consecutive_errors >= 2 or details["classification"] not in {"TIMEOUT", "DNS_ERROR", "TLS_ERROR", "CONNECTION_ERROR"}):
+            break  # never retry; stop on consecutive errors or non-transport errors
     return {"completed": completed, **ledger.summary()}
 
 

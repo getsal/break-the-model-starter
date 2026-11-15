@@ -50,10 +50,12 @@ def _canonical(value: Any) -> str:
 
 def prepare_record(record: Mapping[str, Any]) -> dict[str, Any]:
     """Fill unavailable fields with null and hash the stored, sanitized evidence."""
-    unknown = set(record) - set(FIELDS) - {"schema_version"}
+    unknown = set(record) - set(FIELDS) - {"schema_version", "error_details"}
     if unknown:
         raise ValueError(f"Unknown evidence fields: {sorted(unknown)}")
     clean = {field: sanitize(record.get(field)) for field in FIELDS}
+    if "error_details" in record:
+        clean["error_details"] = sanitize(record["error_details"])
     clean["schema_version"] = SCHEMA_VERSION
     clean["timestamp"] = clean["timestamp"] or datetime.now(timezone.utc).isoformat()
     clean["evaluator_version"] = clean["evaluator_version"] or EVALUATOR_VERSION

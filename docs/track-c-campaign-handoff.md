@@ -1,5 +1,13 @@
 # Track C Campaign Handoff
 
+## Current safety update: wave-02 interrupted
+
+Wave-02 stopped after 16 attempts: 15 responses and one `URLError` on TC-003. The campaign ledger contains 96 attempts, including that failure; the server-side outcome and original exception reason are unknown. The remaining sections describe the older wave-01 checkpoint and must not be used as the current ledger state.
+
+Before any later execution, investigate and reconcile the failed POST and current organizer conditions. Preserve all existing trial IDs, evidence and ledger entries, and count the failed attempt against the 300-request limit. Do not resend the failed trial. Inspect the current ledger and evidence, model availability, remaining budget, and running processes. The original wave-02 manifest cannot be restarted unchanged because its attempted IDs are already reserved. Prepare and review a separate manifest containing only unattempted trial IDs from independent cases; omit the rest of any conversation whose earlier step failed, and do not infer a successful server outcome. No API request is part of the local error-handling validation.
+
+The runner stores sanitized diagnostic categories, exception and reason types, a safe reason summary, elapsed time, configured timeout and HTTP status when available. Arbitrary reason text is redacted to prevent secret or payload disclosure, so details may be unavailable. A single classified transport error can be followed by another independent case; a second consecutive error stops execution, including across runs sharing a ledger. HTTP errors, unknown errors, authentication refusal, rate limiting and budget exhaustion stop execution. Evidence and ledger writes are separate transactions: after interruption inspect both stores and reconcile reserved or unmatched entries before any future batch. Unique IDs prevent repeat reservations only within the same ledger; they do not establish server-side idempotency. These controls do not resolve the earlier wave-02 error.
+
 ## Current checkpoint
 
 The user requested a handoff while `wave-01` was running. The wave finished cleanly; no later wave was started. The root agent was the only process authorized to send official Riley requests. The current campaign is paused at a batch boundary by user request, with no running API process.

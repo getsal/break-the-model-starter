@@ -4,6 +4,7 @@ import time
 import urllib.parse
 import urllib.request
 
+HTTP_TIMEOUT_SECONDS = 60
 
 class RileyAdapter:
     def __init__(self, *, endpoint, approved, allowed_host, max_requests, min_interval_seconds,
@@ -46,7 +47,7 @@ class RileyAdapter:
         self.remaining -= 1
         self.estimated_spent += self.estimated_cost_per_request
         self.last = time.monotonic()
-        with urllib.request.urlopen(request, timeout=60) as response:
+        with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SECONDS) as response:
             data = json.load(response)
         # Never return the authenticated request, credentials, or unrestricted response metadata.
         return {"reply": data.get("reply"), "tool_calls": data.get("tool_calls"), "turn_id": data.get("turn_id")}

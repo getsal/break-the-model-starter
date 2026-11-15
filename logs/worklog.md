@@ -96,3 +96,38 @@
 - Files changed: `docs/track-c-campaign-report.md`, `docs/track-c-campaign-handoff.md`, `research/track_c_campaign_design.md`, `riley_research/campaign_runner.py`, `state/current.md`, `logs/worklog.md`, ignored local SQLite evidence/ledger/dashboard artifacts.
 - Next action: Validate tests and Git state, commit/publish this checkpoint, update ORCA Issues, then stop. Future session should inspect the handoff before any new API request.
 - Blockers: Current organizer time/rate terms, actual API charges, and independent Riley executor/DB results unavailable.
+
+## 2026-11-15T03:15:11.640370+01:00 — Resume campaign
+- Task: Resume from the wave-01 handoff and check the next batch gates.
+- Result: 32 tests passed; campaign ledger and evidence each contain 80 records and evidence hashes verify. Approved host and both models are available.
+- Files changed: state/current.md, logs/worklog.md.
+- Next action: Execute wave-02 and review evidence.
+- Blockers: Actual charges and organizer rate/time terms remain unknown.
+
+## 2026-11-15T03:16:42.244803+01:00 — Wave-02 stopped on communication error
+- Task: Run the next authorized campaign batch.
+- Result: 16 attempts: 15 ok and one URLError, which stopped the batch. Ledger 96 attempts, estimate $1.935; 96 evidence records verified. Wave outcomes 1 PASS, 14 INCONCLUSIVE, 1 ERROR. Server-side outcome of the failed attempt is unknown.
+- Files changed: state/current.md, logs/worklog.md; ignored campaign ledger and evidence.
+- Next action: Investigate and reconcile the error before retrying.
+- Blockers: Error cause and actual provider charges unknown.
+
+## 2026-11-15T03:16:56.291970+01:00 — Read-only connectivity check
+- Task: Check service availability after the stopped batch.
+- Result: /models returned HTTP 200; this does not establish the cause or server-side outcome of the failed POST.
+- Files changed: state/current.md, logs/worklog.md.
+- Next action: Reconcile failed POST before further campaign requests.
+- Blockers: Failed request outcome and actual charges unknown.
+
+## 2026-11-15T03:33:21.822962+01:00 — Runner error handling
+- Task: Improve error evidence and controlled continuation using local simulations.
+- Result: Implementation started; external campaign remains paused.
+- Files changed: state/current.md, logs/worklog.md.
+- Next action: Implement and test without network requests.
+- Blockers: Historical failed POST server outcome remains unknown.
+
+## 2026-11-15T03:35:36.258045+01:00 — Runner error handling validated
+- Task: Add sanitized error diagnostics and bounded continuation without external POSTs.
+- Result: 36 unit tests pass using mocked failures; 96 historical evidence records verify. No API POST or retry occurred.
+- Files changed: riley_research/remote.py, riley_research/campaign_runner.py, riley_research/evidence.py, tests/test_campaign_runner.py, docs/track-c-campaign-handoff.md, state/current.md, logs/worklog.md, CHAT_HANDOFF.md.
+- Next action: Commit the validated local changes; campaign remains paused pending reconciliation.
+- Blockers: Historical failed POST outcome and reason remain unknown.
